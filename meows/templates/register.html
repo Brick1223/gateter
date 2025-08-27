@@ -1,20 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Tarjeta de registro -->
 <div class="card">
   <h2>Registro</h2>
 
   <form method="post">
-    {% csrf_token %}
+    {% csrf_token %}  <!-- Protección CSRF -->
 
+    <!-- Campo de nombre de usuario -->
     <div class="form-group">
       {{ form.username.label_tag }}
       {{ form.username }}
       {% if form.username.errors %}
-        <div class="errorlist">{{ form.username.errors }}</div>
+        <div class="errorlist">{{ form.username.errors }}</div> <!-- Mostrar errores -->
       {% endif %}
     </div>
 
+    <!-- Campo de contraseña -->
     <div class="form-group">
       {{ form.password1.label_tag }}
       {{ form.password1 }}
@@ -23,6 +26,7 @@
       {% endif %}
     </div>
 
+    <!-- Confirmación de contraseña -->
     <div class="form-group">
       {{ form.password2.label_tag }}
       {{ form.password2 }}

@@ -1,23 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
+
+<!-- Panel que muestra mensaje de logout y cuenta regresiva -->
 <div id="logout-panel" class="logout-panel">
   <h2>Has cerrado sesión</h2>
   <p>Serás redirigido al login en <span id="countdown">3</span> segundos...</p>
 </div>
 
 <script>
+  // Inicialización de la cuenta regresiva
   let seconds = 3;
-  const countdownEl = document.getElementById('countdown');
-  const panel = document.getElementById('logout-panel');
+  const countdownEl = document.getElementById('countdown'); // span que muestra los segundos
+  const panel = document.getElementById('logout-panel');    // contenedor del mensaje
 
+  // Intervalo que decrementa los segundos cada 1 segundo
   const interval = setInterval(() => {
     seconds--;
-    countdownEl.textContent = seconds;
+    countdownEl.textContent = seconds; // actualizar el contador visual
     if (seconds <= 0) {
-      clearInterval(interval);
-      // Aplicar fade-out antes de redirigir
+      clearInterval(interval); // detener el intervalo
+
+      // Aplicar efecto fade-out antes de redirigir
       panel.style.transition = "opacity 1s";
       panel.style.opacity = 0;
+
+      // Redirigir al login después de 1 segundo (tiempo del fade-out)
       setTimeout(() => {
         window.location.href = "{% url 'login' %}";
       }, 1000);
@@ -26,6 +33,7 @@
 </script>
 
 <style>
+/* Estilo del panel de logout */
 .logout-panel {
   margin: 100px auto;
   text-align: center;
@@ -36,11 +44,13 @@
   max-width: 400px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.5);
   opacity: 1; /* Para fade-out */
-  transition: opacity 1s;
+  transition: opacity 1s; /* transición suave de opacidad */
 }
-.logout-panel h2 {
+
+ .logout-panel h2 {
   color: #ff9800;
   margin-bottom: 20px;
 }
 </style>
+
 {% endblock %}

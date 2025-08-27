@@ -2,7 +2,9 @@
 
 {% block content %}
 
-<!-- Mensajes de éxito/error -->
+<!-- =========================
+     Mostrar mensajes de éxito o error
+========================= -->
 {% if messages %}
   <ul class="messages">
     {% for message in messages %}
@@ -11,6 +13,9 @@
   </ul>
 {% endif %}
 
+<!-- =========================
+     Verificar si el usuario existe
+========================= -->
 {% if not_found %}
   <div class="not-found">
     <h2>Usuario "{{ username }}" no encontrado</h2>
@@ -19,17 +24,23 @@
 {% else %}
   <div class="profile-container">
 
-    <!-- Panel lateral de información del usuario -->
+    <!-- =========================
+         Panel lateral con información del usuario
+    ========================= -->
     <aside class="profile-sidebar">
       <h3>{{ profile_user.username }}</h3>
       <p><strong>Maullidos publicados:</strong> {{ meows|length }}</p>
       <p><strong>Miembro desde:</strong> {{ profile_user.date_joined|date:"d M Y" }}</p>
     </aside>
 
-    <!-- Sección principal de maullidos -->
+    <!-- =========================
+         Sección principal con maullidos y formulario
+    ========================= -->
     <div class="profile-main">
 
-      <!-- Formulario para publicar maullido -->
+      <!-- =========================
+           Formulario para publicar un nuevo maullido
+      ========================= -->
       {% if form %}
         <div class="new-meow-panel">
           <h3>Publicar un nuevo maullido</h3>
@@ -45,7 +56,9 @@
         </div>
       {% endif %}
 
-      <!-- Maullidos del usuario con efecto globo -->
+      <!-- =========================
+           Lista de maullidos del usuario con efecto globo
+      ========================= -->
       <div class="user-meows">
         <h3>Maullidos</h3>
         {% for meow in meows %}

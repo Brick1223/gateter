@@ -1,19 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
 
+<!-- =========================
+     Contenedor principal de resultados de búsqueda
+========================= -->
 <div class="search-container">
   <h2>Resultados de búsqueda</h2>
 
+  <!-- =========================
+       Mostrar la consulta realizada si existe
+  ========================= -->
   {% if query %}
     <p class="search-query">Buscando usuarios con: "<strong>{{ query }}</strong>"</p>
   {% endif %}
 
+  <!-- =========================
+       Mostrar lista de usuarios encontrados
+  ========================= -->
   {% if users %}
     <div class="user-results">
       {% for user in users %}
         <div class="user-card">
           <div class="user-avatar">
-            <span>{{ user.username|slice:":1"|upper }}</span>
+            <span>{{ user.username|slice:":1"|upper }}</span> <!-- Inicial del usuario -->
           </div>
           <div class="user-info">
             <a href="{% url 'profile' username=user.username %}" class="user-link">{{ user.username }}</a>
@@ -23,9 +32,15 @@
       {% endfor %}
     </div>
   {% else %}
+    <!-- =========================
+         Mensaje cuando no hay resultados
+    ========================= -->
     <p class="no-results">No se encontraron usuarios que coincidan con tu búsqueda.</p>
   {% endif %}
 
+  <!-- =========================
+       Botón para volver al inicio
+  ========================= -->
   <div class="back-home">
     <a href="{% url 'home' %}" class="btn">Volver al inicio</a>
   </div>
