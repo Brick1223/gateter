@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="logout-panel" class="logout-panel">
+  <h2>Has cerrado sesión</h2>
+  <p>Serás redirigido al login en <span id="countdown">3</span> segundos...</p>
+</div>
+
+<script>
+  let seconds = 3;
+  const countdownEl = document.getElementById('countdown');
+  const panel = document.getElementById('logout-panel');
+
+  const interval = setInterval(() => {
+    seconds--;
+    countdownEl.textContent = seconds;
+    if (seconds <= 0) {
+      clearInterval(interval);
+      // Aplicar fade-out antes de redirigir
+      panel.style.transition = "opacity 1s";
+      panel.style.opacity = 0;
+      setTimeout(() => {
+        window.location.href = "{% url 'login' %}";
+      }, 1000);
+    }
+  }, 1000);
+</script>
+
+<style>
+.logout-panel {
+  margin: 100px auto;
+  text-align: center;
+  background-color: #1e1e1e;
+  padding: 40px;
+  border-radius: 10px;
+  color: #fff;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  opacity: 1; /* Para fade-out */
+  transition: opacity 1s;
+}
+.logout-panel h2 {
+  color: #ff9800;
+  margin-bottom: 20px;
+}
+</style>
+{% endblock %}

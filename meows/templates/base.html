@@ -1,0 +1,60 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Configuración responsiva -->
+  <title>Gateter</title>
+
+  <!-- CSS principal del proyecto -->
+  <link rel="stylesheet" href="{% static 'meows/css/style.css' %}">
+</head>
+<body>
+  <!-- ====== Header / Navegación principal ====== -->
+  <header>
+    <nav>
+      <a href="{% url 'home' %}">Inicio</a> |
+      {% if user.is_authenticated %}
+        <!-- Enlaces para usuarios autenticados -->
+        <a href="{% url 'profile' username=user.username %}">
+          Mi perfil ({{ user.username }})
+        </a> |
+        <a href="{% url 'logout' %}">Cerrar sesión</a>
+      {% else %}
+        <!-- Enlaces para visitantes -->
+        <a href="{% url 'login' %}">Iniciar sesión</a> |
+        <a href="{% url 'register' %}">Registrarse</a>
+      {% endif %}
+
+      <!-- Formulario de búsqueda de usuarios (visible solo para usuarios autenticados) -->
+      {% if user.is_authenticated %}
+        <form method="get" action="{% url 'user_search' %}" class="user-search-form">
+          <input type="text" name="q" placeholder="Buscar usuarios..." required>
+          <button type="submit">🔍</button>
+        </form>
+      {% endif %}
+    </nav>
+  </header>
+
+  <!-- ====== Contenido principal de la página ====== -->
+  <main>
+    <!-- Mensaje opcional al cerrar sesión -->
+    {% if logout_message %}
+      <div class="welcome-panel">
+        <h2>{{ logout_message }}</h2>
+      </div>
+    {% endif %}
+
+    <!-- Bloque de contenido que será reemplazado en las plantillas hijas -->
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ====== Footer fijo en la parte inferior ====== -->
+  <footer class="login-footer">
+    © 2025 Gateter - Prueba técnica Abaco 😺
+  </footer>
+
+  <!-- JS principal del proyecto, cargado de manera diferida -->
+  <script src="{% static 'meows/js/scripts.js' %}" defer></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- ====== Mensajes centrales de bienvenida o logout ====== -->
+{% if logout_message %}
+  <div class="welcome-panel">
+    <h2>{{ logout_message }}</h2>
+  </div>
+{% elif welcome_message %}
+  <div class="welcome-panel">
+    <h2>{{ welcome_message }}</h2>
+    <p>Accede a tus publicaciones y conecta con otros amantes de los gatos.</p>
+  </div>
+{% else %}
+  <!-- Mensaje por defecto si no hay mensajes personalizados -->
+  <div class="welcome-panel">
+    <h2>Bienvenido a Gateter 🐾</h2>
+    <p>Por favor <a href="{% url 'login' %}">inicia sesión</a> o <a href="{% url 'register' %}">regístrate</a> para empezar a compartir tus maullidos.</p>
+  </div>
+{% endif %}
+
+<!-- ====== Contenedor principal con columnas ====== -->
+<div class="latest-meows" style="display: flex; gap: 20px; margin-top: 40px;">
+
+  <!-- ====== Columna de maullidos ====== -->
+  <div class="meow-column" style="flex: 2;">
+    <h3>Últimos maullidos</h3>
+    {% for meow in meows %}
+      <div class="meow-bubble">
+        <div class="meow-content">
+          <p>{{ meow.body }}</p>
+        </div>
+        <div class="meow-meta">
+          <!-- Información del autor y fecha de publicación -->
+          <small>por {{ meow.author.username }} - {{ meow.created_at|date:"d M Y H:i" }}</small>
+        </div>
+      </div>
+    {% empty %}
+      <!-- Mensaje si no hay publicaciones -->
+      <p>No hay publicaciones todavía. Sé el primero en maullar!</p>
+    {% endfor %}
+  </div>
+
+  <!-- ====== Columna lateral: usuarios conectados (solo para usuarios autenticados) ====== -->
+  {% if user.is_authenticated %}
+    <div class="connected-users" style="flex: 1;">
+      <h4>Usuarios conectados</h4>
+      {% for u in online_users %}
+        <div class="user-card">
+          <!-- Avatar con inicial del nombre de usuario -->
+          <div class="user-avatar">{{ u.username|slice:":1"|upper }}</div>
+          <div class="user-info">
+            <!-- Enlace al perfil del usuario -->
+            <a href="{% url 'profile' username=u.username %}" class="user-link">{{ u.username }}</a>
+          </div>
+        </div>
+      {% empty %}
+        <!-- Mensaje si no hay usuarios conectados -->
+        <p>No hay usuarios conectados</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

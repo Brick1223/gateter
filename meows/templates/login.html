@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-container">
+  
+  <!-- Formulario (fijo a la izquierda) -->
+  <div class="card">
+    <h2>Iniciar sesión</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Entrar</button>
+    </form>
+    <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate</a></p>
+  </div>
+
+  <!-- Texto animado 1 (aparece desde la mitad derecha) -->
+  <div class="intro-text" id="introText1" aria-hidden="true">
+    <h2>Bienvenido a Gateter 🐾</h2>
+    <p>
+      Comparte tus maullidos, conecta con otros amantes de los gatos y descubre contenido felino cada día. 
+      ¡Aquí tu voz ronronea en comunidad!
+    </p>
+  </div>
+
+  <!-- Texto animado 2 (aparece desde la mitad derecha) -->
+  <div class="intro-text" id="introText2" aria-hidden="true">
+    <h2>Comparte tu amor por los gatos 🐱</h2>
+    <p>
+      Únete a nuestra comunidad y comparte tu pasión felina. 
+      Si no tienes una cuenta, ¡crea una totalmente gratis y empieza a ronronear con nosotros!
+    </p>
+  </div>
+
+  <!-- Fondo (mantenido por si lo reutilizas) -->
+  <div class="gato-bg"></div>
+</div>
+{% endblock %}

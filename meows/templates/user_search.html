@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="search-container">
+  <h2>Resultados de búsqueda</h2>
+
+  {% if query %}
+    <p class="search-query">Buscando usuarios con: "<strong>{{ query }}</strong>"</p>
+  {% endif %}
+
+  {% if users %}
+    <div class="user-results">
+      {% for user in users %}
+        <div class="user-card">
+          <div class="user-avatar">
+            <span>{{ user.username|slice:":1"|upper }}</span>
+          </div>
+          <div class="user-info">
+            <a href="{% url 'profile' username=user.username %}" class="user-link">{{ user.username }}</a>
+            <p>Ver perfil y publicaciones de {{ user.username }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-results">No se encontraron usuarios que coincidan con tu búsqueda.</p>
+  {% endif %}
+
+  <div class="back-home">
+    <a href="{% url 'home' %}" class="btn">Volver al inicio</a>
+  </div>
+</div>
+
+{% endblock %}

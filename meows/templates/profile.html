@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Mensajes de éxito/error -->
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if not_found %}
+  <div class="not-found">
+    <h2>Usuario "{{ username }}" no encontrado</h2>
+    <p>Verifica la URL o el nombre de usuario.</p>
+  </div>
+{% else %}
+  <div class="profile-container">
+
+    <!-- Panel lateral de información del usuario -->
+    <aside class="profile-sidebar">
+      <h3>{{ profile_user.username }}</h3>
+      <p><strong>Maullidos publicados:</strong> {{ meows|length }}</p>
+      <p><strong>Miembro desde:</strong> {{ profile_user.date_joined|date:"d M Y" }}</p>
+    </aside>
+
+    <!-- Sección principal de maullidos -->
+    <div class="profile-main">
+
+      <!-- Formulario para publicar maullido -->
+      {% if form %}
+        <div class="new-meow-panel">
+          <h3>Publicar un nuevo maullido</h3>
+          {% if form.errors %}
+            <div class="errorlist">{{ form.errors }}</div>
+          {% endif %}
+          <form method="post">
+            {% csrf_token %}
+            {{ form.body }}
+            <br>
+            <button type="submit" class="btn">🐱 Maullar</button>
+          </form>
+        </div>
+      {% endif %}
+
+      <!-- Maullidos del usuario con efecto globo -->
+      <div class="user-meows">
+        <h3>Maullidos</h3>
+        {% for meow in meows %}
+          <div class="meow-bubble">
+            <div class="meow-content">
+              <p>{{ meow.body }}</p>
+            </div>
+            <div class="meow-meta">
+              <small>Publicado el {{ meow.created_at|date:"d/m/Y H:i" }}</small>
+            </div>
+          </div>
+        {% empty %}
+          <p>No hay maullidos todavía.</p>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+{% endif %}
+
+{% endblock %}

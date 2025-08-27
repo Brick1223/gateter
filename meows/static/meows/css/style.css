@@ -1,0 +1,714 @@
+/* === Contenedor general del body (no mover navbar) === */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif; /* Fuente principal del proyecto */
+
+  /* Fondo base degradado oscuro */
+  background-color: #1a1a2e;
+  background-image: linear-gradient(135deg, #2b2d42, #3a0ca3); /* degradado diagonal */
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  color: #f5f5f5; /* color de texto por defecto */
+  margin: 0;       /* quitar margen por defecto del navegador */
+  min-height: 100vh; /* asegura que el body ocupe toda la altura de la pantalla */
+  padding: 0;
+  overflow-x: hidden; /* evita scroll horizontal innecesario */
+  position: relative; /* permite posicionar elementos hijos relativos a body */
+}
+
+/* === Overlay: patrón de puntos sobre el degradado === */
+body::before {
+  content: "";
+  position: fixed; /* overlay fijo en toda la pantalla */
+  inset: 0;        /* ocupa toda el área */
+  pointer-events: none; /* no interfiere con clicks ni interacciones */
+  z-index: 0;      /* detrás del contenido principal */
+  background-image: radial-gradient(circle, rgba(255,255,255,0.12) 2px, transparent 2px); /* patrón de puntos */
+  background-size: 30px 30px; /* tamaño del patrón */
+  opacity: 1;      /* visibilidad total del overlay */
+}
+
+/* Contenido sobre overlay */
+.auth-container,
+header,
+main,
+footer,
+.card {
+  position: relative; /* asegura que estén por encima del overlay */
+  z-index: 1;
+}
+
+/* === Contenedor especial para login/register === */
+.auth-container {
+  display: flex;
+  justify-content: flex-start; /* todos los elementos alineados a la izquierda */
+  align-items: center;         /* centrado vertical de los elementos */
+  min-height: calc(100vh - 60px); /* altura ajustada para navbar */
+  padding: 40px;               /* espacio interno */
+  gap: 40px;                    /* separación entre elementos hijos */
+  position: relative;           /* para posicionar elementos relativos dentro */
+}
+
+/* === Formulario (card) fijo a la izquierda === */
+.card {
+  flex: 0 0 auto; /* tamaño fijo */
+  width: 420px;   /* ancho fijo */
+  background: #1e1e2f; /* color de fondo del formulario */
+  border-radius: 12px;  /* bordes redondeados */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* sombra suave */
+  padding: 40px; /* espacio interno */
+  margin: 0;
+}
+
+/* Encabezado centrado dentro del form */
+.card h2 {
+  text-align: center; /* centrado horizontal */
+  margin-bottom: 20px; 
+  color: #ffffff; /* color del título */
+}
+
+/* Inputs y labels */
+.card form label {
+  display: block; /* etiqueta en línea propia */
+  margin-bottom: 6px; /* separación respecto al input */
+  font-weight: bold;
+  color: #f5f5f5; /* color de las etiquetas */
+}
+
+.card form input {
+  width: 100%;  /* ocupa todo el ancho del contenedor */
+  background: #2b2b3c; /* fondo oscuro */
+  border: 1px solid #444; /* borde gris oscuro */
+  border-radius: 8px; /* bordes redondeados */
+  padding: 12px; /* espacio interno */
+  color: #f5f5f5; /* color del texto dentro del input */
+  font-size: 1em;
+  margin-bottom: 15px;
+  box-sizing: border-box; /* incluye padding dentro del ancho */
+}
+
+.card form input:focus {
+  outline: none; /* quitar borde por defecto al enfocar */
+  border-color: #03a9f4; /* color de borde al enfocar */
+  background: #33334d; /* fondo más claro al enfocar */
+}
+
+/* Botón alineado con inputs */
+.card form button[type="submit"] {
+  width: 100%; /* ocupa todo el ancho del formulario */
+  background: #ff9800; /* color principal del botón */
+  color: #1e1e2f;      /* color del texto */
+  font-weight: bold;
+  font-size: 1em;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer; /* cambia el cursor al pasar sobre el botón */
+  transition: background 0.3s ease; /* efecto suave al cambiar color */
+}
+
+.card form button[type="submit"]:hover {
+  background: #ffa733; /* cambio de color al pasar el cursor */
+}
+
+/* === Texto animado (intro) en mitad derecha === */
+.intro-text {
+  position: absolute;
+  left: 50%; /* empieza desde la mitad de la pantalla */
+  max-width: 400px; /* ancho máximo del texto */
+  padding: 20px;
+  opacity: 0; /* inicialmente invisible */
+  transform: translateX(-100%); /* entra desde la izquierda relativa a su contenedor */
+  transition: all 1s ease; /* transición suave para aparecer/desaparecer */
+  z-index: 1; /* aseguramos que esté sobre el overlay */
+}
+
+.intro-text.active {
+  opacity: 1; /* visible */
+  transform: translateX(0); /* centrado relativo a su posición final */
+}
+
+.intro-text.exit {
+  opacity: 0; /* desaparecer */
+  transform: translateX(100%); /* sale hacia la derecha */
+}
+
+.intro-text h2 {
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  color: #ff9800; /* color destacado para el título */
+}
+
+.intro-text p {
+  font-size: 1em;
+  line-height: 1.6; /* mejor legibilidad */
+  color: #ddd;      /* color de texto secundario */
+}
+
+/* === Imagen del gato a la derecha (vacía pero preservada) === */
+.gato-bg {
+  flex: 1; /* ocupa el espacio disponible a la derecha */
+  background: none; /* sin fondo */
+  height: 100%; /* altura completa del contenedor */
+}
+
+/* === Botones principales (ej. publicar maullidos) === */
+button {
+  background: #ff9800; /* color principal del botón */
+  border: none; /* quitar borde por defecto */
+  padding: 12px; /* espacio interno */
+  border-radius: 8px; /* bordes redondeados */
+  font-weight: bold; /* texto en negrita */
+  font-size: 1em;
+  cursor: pointer; /* cursor de puntero */
+  color: #1e1e2f; /* color del texto */
+  transition: background 0.3s ease; /* transición suave al cambiar color */
+}
+
+button:hover {
+  background: #ffa733; /* cambio de color al pasar el cursor */
+}
+
+/* === Formularios de autenticación (login y registro) === */
+.card {
+  background: #1e1e2f; /* color de fondo de la card */
+  border-radius: 12px; /* bordes redondeados */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* sombra suave */
+  padding: 30px; /* espacio interno */
+  width: 100%; /* ocupa todo el ancho del contenedor */
+  max-width: 420px; /* ancho máximo */
+  margin: 40px auto; /* centrado horizontal y margen superior */
+}
+
+/* ===================== */
+/* === Formulario Auth === */
+/* ===================== */
+
+/* Encabezado del formulario */
+.card h2 {
+  text-align: center; /* centrado horizontal */
+  margin-bottom: 20px; 
+  color: #ffffff; /* color del título */
+}
+
+/* Etiquetas de los inputs */
+.card form label {
+  display: block; /* cada label en su propia línea */
+  margin-bottom: 6px; 
+  font-weight: bold; 
+  color: #f5f5f5; /* color de las etiquetas */
+}
+
+/* Campos de entrada */
+.card form input {
+  width: 100%; /* ancho completo del contenedor */
+  background: #2b2b3c; /* fondo oscuro */
+  border: 1px solid #444; /* borde gris oscuro */
+  border-radius: 8px; /* bordes redondeados */
+  padding: 10px; /* espacio interno */
+  color: #f5f5f5; /* color del texto */
+  font-size: 1em;
+  margin-bottom: 15px; /* separación entre campos */
+  box-sizing: border-box; /* padding incluido en ancho */
+  transition: border-color 0.3s ease, background 0.3s ease; /* transición suave al enfocar */
+}
+
+.card form input:focus {
+  outline: none; /* quita borde por defecto */
+  border-color: #03a9f4; /* borde azul al enfocar */
+  background: #33334d; /* fondo más claro al enfocar */
+}
+
+/* Errores bajo cada campo */
+.errorlist {
+  list-style: none; /* quitar viñetas */
+  padding: 0;
+  margin: 5px 0 10px 0; /* separación respecto al input y al siguiente elemento */
+  color: #ff4d4d; /* color rojo para errores */
+  font-size: 0.85em; /* tamaño más pequeño */
+}
+
+.errorlist li {
+  margin: 2px 0; /* separación entre cada error */
+}
+
+/* ===================== */
+/* === Botón de enviar === */
+/* ===================== */
+.card form button[type="submit"] {
+  background: #03a9f4; /* color principal del botón de enviar */
+  color: #fff; /* color del texto */
+  font-weight: bold; 
+  font-size: 1em;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  width: 100%; /* ocupa todo el ancho del formulario */
+  margin-top: 10px; /* separación respecto a los campos */
+  cursor: pointer; /* cursor de puntero */
+  transition: background 0.3s ease; /* transición suave al pasar el cursor */
+}
+
+.card form button[type="submit"]:hover {
+  background: #4dd0e1; /* color al pasar el cursor */
+}
+
+/* ===================== */
+/* === Navegación === */
+/* ===================== */
+nav {
+  text-align: center; /* centrado horizontal */
+  margin-bottom: 20px; 
+}
+
+nav a {
+  color: #ff9800; /* color principal de los enlaces */
+  margin: 0 10px; /* separación horizontal entre enlaces */
+  text-decoration: none; /* quitar subrayado */
+  font-weight: bold; 
+}
+
+nav a:hover {
+  color: #ffa733; /* cambio de color al pasar el cursor */
+  text-decoration: underline; /* subrayado al pasar el cursor */
+}
+
+/* ===================== */
+/* === Mensajes === */
+/* ===================== */
+ul.messages {
+  list-style: none; /* quitar viñetas */
+  padding: 0;
+  margin-bottom: 20px; 
+}
+
+ul.messages li {
+  padding: 10px; /* espacio interno */
+  border-radius: 6px; /* bordes redondeados */
+  margin-bottom: 10px; /* separación entre mensajes */
+  font-size: 0.9em; /* tamaño de letra más pequeño */
+}
+
+ul.messages li.success {
+  background: #2e7d32; /* verde para éxito */
+  color: #dff0d8; /* texto claro */
+}
+
+ul.messages li.error {
+  background: #c62828; /* rojo para errores */
+  color: #ffebee; /* texto claro */
+}
+
+/* ===================== */
+/* === Publicaciones / Maullidos === */
+/* ===================== */
+div.meow {
+  border-bottom: 1px solid #444; /* línea divisoria */
+  padding: 10px 0; /* separación vertical */
+}
+
+div.meow p {
+  margin: 0; /* eliminar margen por defecto */
+  font-size: 1.1em; /* tamaño ligeramente mayor */
+}
+
+div.meow small {
+  color: #aaa; /* color más claro para información secundaria */
+  font-size: 0.8em; /* tamaño de letra más pequeño */
+}
+
+/* ===================== */
+/* === Contador de caracteres === */
+/* ===================== */
+.char-counter {
+  font-size: 0.85em; /* tamaño pequeño */
+  text-align: right; /* alineado a la derecha */
+  color: #aaa; /* color gris */
+}
+
+/* ===================== */
+/* === Footer fijo en la parte inferior === */
+/* ===================== */
+footer {
+  position: fixed; /* siempre visible en la parte inferior */
+  bottom: 0;
+  left: 0;
+  width: 100%; /* ocupa todo el ancho */
+  text-align: center; 
+  padding: 15px 0; 
+  color: #ddd; /* color de texto */
+  font-size: 0.9em; 
+  background: rgba(26,26,46,0.9); /* fondo semitransparente */
+  z-index: 999; /* sobre otros elementos */
+}
+
+/* ========================= */
+/* === Maullidos estilo WhatsApp y perfil === */
+/* ========================= */
+.profile-container {
+  display: flex; /* organizar sidebar y main en línea */
+  gap: 20px; /* espacio entre columnas */
+  margin-top: 30px; /* separación superior */
+}
+
+.profile-sidebar {
+  flex: 1; /* ocupa 1 parte del ancho disponible */
+  background-color: #2a2a2a; /* color de fondo del sidebar */
+  border-radius: 10px; /* bordes redondeados */
+  padding: 15px; /* espacio interno */
+  max-height: 500px; /* limitar altura */
+  overflow-y: auto; /* scroll vertical si se desborda */
+}
+
+.profile-sidebar h3 {
+  margin-top: 0; /* quitar margen superior */
+  color: #ff9800; /* color de título */
+  text-align: center; /* centrado horizontal */
+}
+
+.profile-sidebar ul {
+  list-style: none; /* quitar viñetas */
+  padding: 0;
+  margin: 0;
+}
+
+.profile-sidebar li {
+  padding: 5px 10px; /* espacio interno */
+  margin-bottom: 5px; /* separación entre items */
+  background-color: #1e1e1e; /* color de fondo */
+  border-radius: 8px; /* bordes redondeados */
+  color: #fff; /* color del texto */
+  font-size: 0.9em; /* tamaño de letra */
+  transition: background-color 0.2s; /* animación suave al hover */
+}
+
+.profile-sidebar li:hover {
+  background-color: #333; /* cambio de fondo al pasar cursor */
+  cursor: pointer; /* cursor de puntero */
+}
+
+.profile-main {
+  flex: 2; /* ocupa 2 partes del ancho disponible */
+}
+
+/* ========================= */
+/* === Globos de maullidos en perfil === */
+/* ========================= */
+.profile-main .meow-bubble {
+  background-color: #1e1e1e; /* color de fondo del globo */
+  border-radius: 15px; /* bordes redondeados */
+  padding: 10px 15px; /* espacio interno */
+  margin-bottom: 15px; /* separación entre maullidos */
+  position: relative; /* necesario para pseudo-elemento ::after */
+  max-width: 80%; /* ancho máximo del globo */
+  word-wrap: break-word; /* saltos de línea automáticos */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* sombra sutil */
+}
+
+.profile-main .meow-bubble::after {
+  content: ""; /* pseudo-elemento para el triángulo del globo */
+  position: absolute; 
+  bottom: 0; /* alineado abajo */
+  left: 20px; /* separación desde la izquierda */
+  width: 0;
+  height: 0;
+  border-top: 10px solid #1e1e1e; /* color del triángulo */
+  border-left: 10px solid transparent; /* forma triangular */
+}
+
+.profile-main .meow-content p {
+  margin: 0; /* eliminar margen predeterminado */
+  color: #f1f1f1; /* color del texto del maullido */
+}
+
+.profile-main .meow-meta {
+  font-size: 0.75em; /* letra pequeña para metadatos */
+  color: #aaa; /* color gris */
+  margin-top: 5px; /* separación del contenido principal */
+}
+
+/* Formulario de nuevo maullido */
+.new-meow-panel {
+  background-color: #1e1e1e; /* color de fondo */
+  padding: 15px; /* espacio interno */
+  border-radius: 12px; /* bordes redondeados */
+  margin-bottom: 20px; /* separación inferior */
+}
+
+.new-meow-panel h3 {
+  margin-top: 0; 
+  color: #ff9800; /* color del título */
+}
+
+.new-meow-panel form textarea {
+  width: 100%; /* ancho completo */
+  min-height: 60px; /* altura mínima */
+  border-radius: 8px; /* bordes redondeados */
+  padding: 8px; /* espacio interno */
+  background-color: #2a2a2a; /* color de fondo */
+  border: 1px solid #444; /* borde oscuro */
+  color: #fff; /* color del texto */
+  resize: vertical; /* permitir redimensionar verticalmente */
+}
+
+.new-meow-panel form button {
+  margin-top: 10px; /* separación superior */
+}
+
+/* =========================
+   Maullidos en globo para Home
+========================= */
+.latest-meows .meow-bubble {
+  background-color: #1e1e1e; /* color de fondo */
+  border-radius: 15px;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  position: relative;
+  max-width: 80%;
+  word-wrap: break-word;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.latest-meows .meow-bubble::after {
+  content: ""; /* triángulo del globo */
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #1e1e1e;
+  border-left: 10px solid transparent;
+}
+
+.latest-meows .meow-content p {
+  margin: 0;
+  color: #f1f1f1;
+}
+
+.latest-meows .meow-meta {
+  font-size: 0.75em;
+  color: #aaa;
+  margin-top: 5px;
+}
+
+/* =========================
+   Contenedor principal Home con columnas
+========================= */
+.home-container {
+  display: flex; /* columnas lado a lado */
+  gap: 20px; /* espacio entre columnas */
+  margin-top: 40px; /* separación superior */
+}
+
+/* Columna de maullidos */
+.latest-meows .meow-column {
+  flex: 2; /* ocupa más espacio que sidebar */
+}
+
+/* =========================
+   Panel lateral de usuarios conectados estilo tarjetas
+========================= */
+.connected-users {
+  flex: 1; /* ocupa menos espacio que columna principal */
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  padding: 15px;
+  max-height: 500px;
+  overflow-y: auto; /* scroll si hay muchos usuarios */
+}
+
+.connected-users h4 {
+  margin-top: 0;
+  color: #ff9800;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.connected-users .user-card {
+  display: flex; /* avatar y info lado a lado */
+  align-items: center; /* alineación vertical */
+  background-color: #1e1e1e;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px; /* separación entre cards */
+  transition: background-color 0.2s; /* transición suave */
+}
+
+.connected-users .user-card:hover {
+  background-color: #333; /* cambio al pasar cursor */
+  cursor: pointer;
+}
+
+.connected-users .user-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #ff9800; /* color de fondo del avatar */
+  border-radius: 50%; /* círculo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1em;
+  margin-right: 12px; /* separación del texto */
+  color: #1e1e1e; /* color del texto dentro del avatar */
+}
+
+.connected-users .user-info .user-link {
+  font-size: 0.95em;
+  font-weight: bold;
+  color: #fff; /* color del texto del usuario */
+  text-decoration: none; /* quitar subrayado */
+}
+
+.connected-users .user-info .user-link:hover {
+  text-decoration: underline;
+  color: #ffa733; /* color al pasar cursor */
+}
+
+/* === Formulario de búsqueda de usuarios en la esquina superior derecha === */
+.user-search-form {
+  display: inline-flex; /* alineación horizontal */
+  position: absolute; /* posición absoluta */
+  top: 10px;
+  right: 20px; /* separación de la esquina */
+  align-items: center; /* centrar verticalmente */
+}
+
+.user-search-form input[type="text"] {
+  padding: 5px 10px; /* espacio interno */
+  border-radius: 6px;
+  border: 1px solid #ccc; /* borde gris claro */
+  font-size: 0.9em;
+}
+
+.user-search-form button {
+  background: #03a9f4; /* color del botón */
+  color: #fff; /* color del texto */
+  border: none;
+  padding: 5px 10px;
+  margin-left: 4px; /* separación del input */
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.user-search-form button:hover {
+  background: #0288d1; /* cambio de color al pasar cursor */
+}
+
+/* === Footer fijo en la parte inferior === */
+.login-footer {
+  position: fixed; /* siempre visible en pantalla */
+  bottom: 0; /* pegado abajo */
+  left: 0; /* alineado a la izquierda */
+  width: 100%; /* ocupa todo el ancho */
+  text-align: center; /* centrado horizontal */
+  padding: 15px 0; /* espacio interno vertical */
+  color: #ddd; /* color del texto */
+  font-size: 0.9em; /* tamaño de letra */
+  background: rgba(26,26,46,0.9); /* fondo semi-transparente */
+  z-index: 999; /* encima de otros elementos */
+}
+
+/* =========================
+   User Search
+========================= */
+
+.search-container {
+  max-width: 800px; /* ancho máximo del contenedor */
+  margin: 50px auto; /* centrado horizontal y margen superior */
+  padding: 20px; /* espacio interno */
+  background-color: #1e1e1e; /* color de fondo */
+  border-radius: 12px; /* bordes redondeados */
+  color: #fff; /* color del texto */
+}
+
+.search-container h2 {
+  text-align: center; /* centrado del título */
+  color: #ff9800; /* color destacado */
+  margin-bottom: 15px; /* separación inferior */
+}
+
+.search-container .search-query {
+  text-align: center; /* centrado del texto de búsqueda */
+  font-style: italic; /* cursiva */
+  margin-bottom: 20px; /* separación inferior */
+}
+
+.user-results {
+  display: flex; /* contenedor flexible */
+  flex-direction: column; /* elementos apilados verticalmente */
+  gap: 15px; /* separación entre usuarios */
+}
+
+.user-card {
+  display: flex; /* avatar y info lado a lado */
+  align-items: center; /* alineación vertical centrada */
+  background-color: #2a2a2a; /* fondo de cada tarjeta */
+  padding: 12px 15px; /* espacio interno */
+  border-radius: 10px; /* bordes redondeados */
+  transition: background-color 0.3s; /* transición suave al hover */
+}
+
+.user-card:hover {
+  background-color: #333; /* cambio de color al pasar cursor */
+}
+
+.user-avatar {
+  width: 50px; /* tamaño ancho */
+  height: 50px; /* tamaño alto */
+  background-color: #ff9800; /* color de fondo del avatar */
+  border-radius: 50%; /* forma circular */
+  display: flex; /* contenedor flexible */
+  align-items: center; /* centrar verticalmente el contenido */
+  justify-content: center; /* centrar horizontalmente */
+  font-weight: bold; /* texto en negrita */
+  font-size: 1.2em; /* tamaño de letra */
+  margin-right: 15px; /* separación respecto a la info del usuario */
+  color: #1e1e1e; /* color del texto dentro del avatar */
+}
+
+.user-info .user-link {
+  font-size: 1.1em; /* tamaño de letra del nombre */
+  font-weight: bold; /* negrita */
+  color: #fff; /* color del texto */
+  text-decoration: none; /* sin subrayado */
+}
+
+.user-info .user-link:hover {
+  text-decoration: underline; /* subrayado al pasar cursor */
+  color: #ffa733; /* cambio de color al hover */
+}
+
+.user-info p {
+  margin: 2px 0 0 0; /* separación superior pequeña */
+  font-size: 0.85em; /* letra más pequeña */
+  color: #aaa; /* color gris claro para detalles */
+}
+
+.no-results {
+  text-align: center; /* centrado del mensaje */
+  font-style: italic; /* cursiva */
+  color: #bbb; /* color gris */
+  margin: 20px 0; /* separación superior e inferior */
+}
+
+.back-home {
+  text-align: center; /* centrado del botón */
+  margin-top: 25px; /* separación superior */
+}
+
+.back-home .btn {
+  background-color: #ff9800; /* color de fondo */
+  color: #1e1e1e; /* color del texto */
+  padding: 10px 20px; /* espacio interno */
+  border-radius: 8px; /* bordes redondeados */
+  text-decoration: none; /* sin subrayado */
+  font-weight: bold; /* negrita */
+  transition: background 0.3s; /* transición suave al hover */
+}
+
+.back-home .btn:hover {
+  background-color: #ffa733; /* cambio de color al pasar cursor */
+}
